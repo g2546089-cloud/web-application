@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>マイ映画図鑑</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 1. ログイン画面-->
+    <div id="login-screen" class="login-container">
+        <div class="login-card">
+            <div class="login-icon">🎥</div>
+            <h2>マイ映画図鑑</h2>
+            <p>ログインして映画の記録を開く</p>
+
+            <form id="login-form">
+                <div class="input-group">
+                    <label for="username">ユーザーネーム</label>
+                    <input type="text" id="username" placeholder="例: aoi" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">パスワード</label>
+                    <input type="password" id="password" placeholder="パスワードを入力" required>
+                </div>
+
+                <p id="error-msg" class="error-msg"></p>
+        
+                <button type="submit" class="login-btn">ログイン</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. アプリ画面（ログイン後に表示） -->
+    <div id="app-screen" class="app-container hidden">
+        <header>
+            <div class="header-left">
+                <h1>🎥 マイ映画図鑑</h1>
+                <p>私のお気に入り映画コレクション</p>
+            </div>
+            <div class="header-right">
+                <span id="user-display" class="user-display"></span>
+                <button id="logout-btn" class="logout-btn">ログアウト</button>
+            </div>
+        </header>
+
+        <main id="movie-list" class="movie-grid"></main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
