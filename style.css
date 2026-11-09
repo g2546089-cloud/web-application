@@ -21,15 +21,19 @@ body {
 .login-card {
     background: #1e1e1e;
     color: #fff;
-    padding: 40px 30px;
+    padding: 40px 45px;
     border-radius: 8px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
     width: 100%;
-    max-width: 360px;
+    max-width: 390px;
     text-align: center;
     position: relative;
-    border-left: 8px dotted #ffffff;
-    border-right: 8px dotted #ffffff;
+    background-image:
+        linear-gradient(0deg, #ffffff 60%, transparent 60%),
+        linear-gradient(0deg, #ffffff 60%, transparent 60%);
+    background-repeat: repeat-y;
+    background-size: 8px 16px;
+    background-position: 12px 0, calc(100% - 12px) 0;
 }
 
 .login-icon {
@@ -200,7 +204,6 @@ header p {
 
 /* --- ボックス型の映画カード一覧 --- */
 /* --- 映画カードグリッド（チケット用に幅を広めに調整） --- */
-/* --- 映画カードグリッド --- */
 .movie-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -211,13 +214,20 @@ header p {
 
 /* --- 本格チケット風の映画カード --- */
 .movie-card {
-    /* 左右中央の内側を円形にくり抜く背景設定 */
-    background: 
-        radial-gradient(circle at left center, transparent 12px, #1e272e 13px) top left,
-        radial-gradient(circle at right center, transparent 12px, #1e272e 13px) top right;
-    background-size: 51% 100%;
-    background-repeat: no-repeat;
+    /* 1. チケット全体を囲むゴールドの枠線 */
+    border: 2px solid #d4af37;
+    background-color: #1e272e;
     
+    /* 2. 左右の凹みをマスクで綺麗にくり抜く */
+    -webkit-mask: 
+        radial-gradient(circle 12px at left center, transparent 12px, black 13px),
+        radial-gradient(circle 12px at right center, transparent 12px, black 13px);
+    -webkit-mask-composite: source-in;
+    mask: 
+        radial-gradient(circle 12px at left center, transparent 12px, black 13px),
+        radial-gradient(circle 12px at right center, transparent 12px, black 13px);
+    mask-composite: intersect;
+
     border-radius: 12px;
     padding: 18px 24px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
@@ -228,17 +238,10 @@ header p {
     align-items: center;
     position: relative;
     box-sizing: border-box;
-    
-    /* チケット感を引き立てるゴールドの上下点線枠 */
-    border-top: 2px dashed #d4af37;
-    border-bottom: 2px dashed #d4af37;
-    border-left: none;
-    border-right: none;
 }
-
 .movie-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
+    transform: translateY(-6px);
+    box-shadow: 0 14px 30px rgba(212, 175, 55, 0.3), 0 6px 12px rga(0, 0, 0, 0.3);
 }
 
 /* 擬似要素の丸（出っ張り原因）は不要になったので削除 */

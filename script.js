@@ -168,7 +168,7 @@ function renderMovies() {
 
     card.innerHTML = `
       <div class="ticket-main">
-        <h3 class="card-title">🎟️ ${movie.title}</h3>
+        <h3 class="card-title"> ${movie.title}</h3>
         <div class="card-date">📅 ${movie.date}</div>
         <div class="card-rating">${movie.rating}</div>
       </div>
