@@ -7,12 +7,12 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- 1. ログイン画面-->
+    <!-- 1. フィルム風のログイン画面 -->
     <div id="login-screen" class="login-container">
         <div class="login-card">
-            <div class="login-icon">🎥</div>
+            <div class="login-icon">🎬</div>
             <h2>マイ映画図鑑</h2>
-            <p>ログインして映画の記録を開く</p>
+            <p>フィルムを開いて記録へ</p>
 
             <form id="login-form">
                 <div class="input-group">
@@ -44,7 +44,50 @@
             </div>
         </header>
 
+        <!-- 映画の追加フォーム -->
+        <section class="add-movie-section">
+            <form id="add-movie-form" class="add-form">
+                <h3>🎬 映画を新しく記録する</h3>
+                <div class="form-row">
+                    <input type="text" id="movie-title-input" placeholder="映画のタイトル" required>
+                    <input type="date" id="movie-date-input" required>
+                </div>
+                <div class="form-row">
+                    <select id="movie-rating-input">
+                        <option value="★★★★★">★★★★★</option>
+                        <option value="★★★★☆">★★★★☆</option>
+                        <option value="★★★☆☆">★★★☆☆</option>
+                        <option value="★★☆☆☆">★★☆☆☆</option>
+                        <option value="★☆☆☆☆">★☆☆☆☆</option>
+                    </select>
+                    <input type="text" id="movie-image-input" placeholder="画像URL（空欄でもOK）">
+                </div>
+                <div class="form-row">
+                    <textarea id="movie-memo-input" placeholder="感想やメモをたっぷりと..." rows="2" required></textarea>
+                </div>
+                <button type="submit" class="add-btn">+ 映画リストに追加する</button>
+            </form>
+        </section>
+
+        <!-- 映画リスト（チケット風カード一覧） -->
         <main id="movie-list" class="movie-grid"></main>
+    </div>
+
+    <!-- 3. ノート詳細モーダル（クリックしたときに出てくる1ページ） -->
+    <div id="movie-modal" class="modal hidden">
+        <div class="notebook-page">
+            <button id="close-modal-btn" class="close-btn">×</button>
+            <div class="notebook-content">
+                <img id="modal-poster" class="modal-poster" src="" alt="">
+                <div class="modal-details">
+                    <h2 id="modal-title"></h2>
+                    <p class="modal-date-label">📅 見た日: <span id="modal-date"></span></p>
+                    <div id="modal-rating" class="modal-rating"></div>
+                    <hr class="notebook-line">
+                    <p id="modal-memo" class="modal-memo"></p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>

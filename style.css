@@ -1,7 +1,8 @@
 body {
     font-family: sans-serif;
-    background-color: #f4f5f7;
-    color: #666;
+    background-color: #d7f6f6; /* ログイン画面の背景 */
+    color: #f1f2f6;
+    margin: 0;
     padding: 20px;
 }
 
@@ -9,7 +10,7 @@ body {
     display: none !important;
 }
 
-/* --- ログイン画面のスタイル --- */
+/* --- フィルム風のログイン画面 --- */
 .login-container {
     display: flex;
     justify-content: center;
@@ -18,13 +19,17 @@ body {
 }
 
 .login-card {
-    background: white;
-    padding: 30px 40px;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    background: #1e1e1e;
+    color: #fff;
+    padding: 40px 30px;
+    border-radius: 8px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
     width: 100%;
     max-width: 360px;
     text-align: center;
+    position: relative;
+    border-left: 8px dotted #ffffff;
+    border-right: 8px dotted #ffffff;
 }
 
 .login-icon {
@@ -34,12 +39,12 @@ body {
 
 .login-card h2 {
     margin: 0 0 5px 0;
-    color: #222;
+    color: #f1f2f6;
 }
 
 .login-card p {
     font-size: 0.85rem;
-    color: #666;
+    color: #a4b0be;
     margin-bottom: 25px;
 }
 
@@ -53,20 +58,22 @@ body {
     font-size: 0.8rem;
     font-weight: bold;
     margin-bottom: 5px;
-    color: #444;
+    color: #ced6e0;
 }
 
 .input-group input {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    background: #2f3542;
+    border: 1px solid #57606f;
+    color: #fff;
+    border-radius: 6px;
     box-sizing: border-box;
     font-size: 0.95rem;
 }
 
 .error-msg {
-    color: #e74c3c;
+    color: #ff7675;
     font-size: 0.85rem;
     min-height: 20px;
     margin-bottom: 10px;
@@ -75,10 +82,10 @@ body {
 .login-btn {
     width: 100%;
     padding: 12px;
-    background: #3498db;
+    background: #e74c3c;
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
     font-weight: bold;
     font-size: 1rem;
     cursor: pointer;
@@ -86,26 +93,27 @@ body {
 }
 
 .login-btn:hover {
-    background: #2980b9;
+    background: #c0392b;
 }
 
-/* --- メイン画面（ヘッダーとグリッド） --- */
+/* --- メイン画面ヘッダー --- */
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     max-width: 1000px;
-    margin: 0 auto 30px auto;
+    margin: 0 auto 25px auto;
 }
 
 header h1 {
     margin: 0;
     font-size: 1.6rem;
+    color: #fff;
 }
 
 header p {
     margin: 4px 0 0 0;
-    color: #666;
+    color: #a4b0be;
     font-size: 0.9rem;
 }
 
@@ -118,69 +126,317 @@ header p {
 .user-display {
     font-size: 0.9rem;
     font-weight: bold;
-    color: #555;
+    color: #dfe4ea;
 }
 
 .logout-btn {
-    background: #eee;
-    border: none;
+    background: #2f3542;
+    border: 1px solid #57606f;
     padding: 8px 14px;
     border-radius: 6px;
     cursor: pointer;
     font-size: 0.85rem;
-    color: #555;
+    color: #f1f2f6;
 }
 
 .logout-btn:hover {
-    background: #ddd;
+    background: #ff7675;
+    border-color: #ff7675;
 }
 
+/* --- 映画追加フォーム --- */
+.add-movie-section {
+    max-width: 1000px;
+    margin: 0 auto 30px auto;
+}
+
+.add-form {
+    background: #1e1e1e;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    border: 1px solid #333;
+}
+
+.add-form h3 {
+    margin: 0 0 15px 0;
+    font-size: 1rem;
+    color: #f1f2f6;
+}
+
+.form-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.form-row input, .form-row select, .form-row textarea {
+    width: 100%;
+    padding: 10px;
+    background: #2f3542;
+    border: 1px solid #57606f;
+    color: #fff;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+}
+
+.add-btn {
+    width: 100%;
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 11px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.add-btn:hover {
+    background: #2980b9;
+}
+
+/* --- ボックス型の映画カード一覧 --- */
+/* --- 映画カードグリッド（チケット用に幅を広めに調整） --- */
+/* --- 映画カードグリッド --- */
 .movie-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
     max-width: 1000px;
     margin: 0 auto;
 }
 
+/* --- 本格チケット風の映画カード --- */
 .movie-card {
-    background: white;
+    /* 左右中央の内側を円形にくり抜く背景設定 */
+    background: 
+        radial-gradient(circle at left center, transparent 12px, #1e272e 13px) top left,
+        radial-gradient(circle at right center, transparent 12px, #1e272e 13px) top right;
+    background-size: 51% 100%;
+    background-repeat: no-repeat;
+    
     border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    padding: 18px 24px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    box-sizing: border-box;
+    
+    /* チケット感を引き立てるゴールドの上下点線枠 */
+    border-top: 2px dashed #d4af37;
+    border-bottom: 2px dashed #d4af37;
+    border-left: none;
+    border-right: none;
 }
 
 .movie-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
 }
 
-.movie-poster {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
+/* 擬似要素の丸（出っ張り原因）は不要になったので削除 */
+.movie-card::before,
+.movie-card::after {
+    display: none;
 }
 
-.movie-info {
-    padding: 15px;
+/* チケット本券エリア（左側） */
+.ticket-main {
+    flex-grow: 1;
+    padding-right: 20px;
+    border-right: 2px dashed #d4af37; /* もぎり用の縦破線 */
 }
 
-.movie-title {
+.card-title {
     font-size: 1.1rem;
-    margin: 0 0 8px 0;
     font-weight: bold;
+    margin: 0 0 6px 0;
+    color: #f1c40f;
+    letter-spacing: 0.5px;
 }
 
-.movie-rating {
+.card-date {
+    font-size: 0.8rem;
+    color: #cbd5e1;
+    margin-bottom: 6px;
+}
+
+.card-rating {
     color: #f39c12;
-    font-size: 0.9rem;
-    margin-bottom: 8px;
+    font-size: 0.85rem;
 }
 
-.movie-memo {
+/* チケット半券エリア（右側） */
+.ticket-stub {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-left: 20px;
+    min-width: 70px;
+}
+
+.ticket-stub-text {
+    font-size: 0.65rem;
+    color: #d4af37;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.delete-btn {
+    background: transparent;
+    border: 1px solid #ff7675;
+    color: #ff7675;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.delete-btn:hover {
+    background: #ff7675;
+    color: white;
+}
+/* --- ノート詳細モーダル（1ページ） --- */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.notebook-page {
+    background: #fffdf9;
+    color: #333;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    position: relative;
+    border: 1px solid #e3dec3;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: #eee;
+    border: none;
+    font-size: 1.2rem;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #555;
+    transition: background 0.2s;
+}
+
+.close-btn:hover {
+    background: #ddd;
+}
+
+.notebook-content {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    margin-top: 10px;
+}
+
+.modal-poster {
+    width: 140px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.modal-details {
+    flex-grow: 1;
+}
+
+#modal-title {
+    margin: 0 0 5px 0;
+    font-size: 1.3rem;
+    color: #2c3e50;
+}
+
+.modal-date-label {
     font-size: 0.85rem;
-    color: #666;
+    color: #7f8c8d;
+    margin: 0 0 8px 0;
+}
+
+.modal-rating {
+    font-size: 1rem;
+    color: #f39c12;
+    margin-bottom: 12px;
+}
+
+.notebook-line {
+    border: none;
+    border-top: 1px dashed #dcd6ad;
+    margin: 12px 0;
+}
+
+.modal-memo {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.6;
     margin: 0;
-    line-height: 1.4;
+    white-space: pre-wrap;
+}
+
+/* --- ポップコーンアニメーション --- */
+.popcorn-particle {
+    position: fixed;
+    pointer-events: none;
+    font-size: 1.8rem;
+    z-index: 9999;
+    user-select: none;
+    animation: pop-animation 0.9s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes pop-animation {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(0.5) rotate(0deg);
+    }
+    50% {
+        opacity: 1;
+        transform: translate(var(--dx), var(--dy)) scale(1.4) rotate(360deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(var(--dx), calc(var(--dy) + 50px)) scale(0.8) rotate(720deg);
+    }
+}
+
+@media (max-width: 500px) {
+    .notebook-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
 }

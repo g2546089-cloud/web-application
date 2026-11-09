@@ -1,28 +1,35 @@
 const CORRECT_PASSWORD = "1234";
 
-// 1. 映画のデータを用意する
-const movies = [
+const initialMovies = [
   {
+    id: 1,
     title: "トイ・ストーリー",
+    date: "2026-05-10",
     rating: "★★★★★",
     image: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=500",
     memo: "ウッディとバズの友情が最高。何度見ても心が温かくなる大好きな作品。"
   },
   {
+    id: 2,
     title: "グランド・ブダペスト・ホテル",
+    date: "2026-05-15",
     rating: "★★★★☆",
     image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=500",
     memo: "構図と色使いがとにかくおしゃれで可愛い！インテリアや衣装の参考にもなる。"
   },
   {
+    id: 3,
     title: "ラ・ラ・ランド",
+    date: "2026-05-20",
     rating: "★★★★★",
     image: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=500",
     memo: "音楽と映像美が素晴らしい。切ないけれど前向きになれるラストが好き。"
   }
 ];
 
-// --- HTML要素の取得 ---
+let movies = JSON.parse(localStorage.getItem("my_movies")) || initialMovies;
+const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=500";
+
 const loginScreen = document.getElementById("login-screen");
 const appScreen = document.getElementById("app-screen");
 const loginForm = document.getElementById("login-form");
@@ -33,56 +40,143 @@ const userDisplay = document.getElementById("user-display");
 const logoutBtn = document.getElementById("logout-btn");
 const movieContainer = document.getElementById("movie-list");
 
-// --- 1. ログイン処理 ---
-loginForm.addEventListener("submit", (e) => {
-  e.preventDefault(); // 画面リロードを防止
+const addMovieForm = document.getElementById("add-movie-form");
+const titleInput = document.getElementById("movie-title-input");
+const dateInput = document.getElementById("movie-date-input");
+const ratingInput = document.getElementById("movie-rating-input");
+const imageInput = document.getElementById("movie-image-input");
+const memoInput = document.getElementById("movie-memo-input");
 
+const modal = document.getElementById("movie-modal");
+const closeModalBtn = document.getElementById("close-modal-btn");
+const modalPoster = document.getElementById("modal-poster");
+const modalTitle = document.getElementById("modal-title");
+const modalDate = document.getElementById("modal-date");
+const modalRating = document.getElementById("modal-rating");
+const modalMemo = document.getElementById("modal-memo");
+
+function saveMovies() {
+  localStorage.setItem("my_movies", JSON.stringify(movies));
+}
+
+loginForm.addEventListener("submit", (e) => {
+  e.preventDefault();
   const username = usernameInput.value.trim();
   const password = passwordInput.value;
 
-  // パスワード判定
   if (password === CORRECT_PASSWORD) {
-    // ログイン成功
     errorMsg.textContent = "";
     loginScreen.classList.add("hidden");
     appScreen.classList.remove("hidden");
     userDisplay.textContent = `👤 ${username} さん`;
-    
-    // 映画リストを表示
     renderMovies();
   } else {
-    // ログイン失敗
     errorMsg.textContent = "パスワードが正しくありません";
   }
 });
 
-// --- 2. ログアウト処理 ---
 logoutBtn.addEventListener("click", () => {
   appScreen.classList.add("hidden");
   loginScreen.classList.remove("hidden");
-  passwordInput.value = ""; // パスワードをクリア
+  passwordInput.value = "";
 });
 
-// 3. 画面にカードを表示する処理
+addMovieForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const imageUrl = imageInput.value.trim() !== "" ? imageInput.value.trim() : DEFAULT_IMAGE;
+
+  const newMovie = {
+    id: Date.now(),
+    title: titleInput.value,
+    date: dateInput.value,
+    rating: ratingInput.value,
+    image: imageUrl,
+    memo: memoInput.value
+  };
+
+  movies.unshift(newMovie);
+  saveMovies();
+  addMovieForm.reset();
+  renderMovies();
+
+  const submitBtn = e.target.querySelector('button[type="submit"]');
+  createPopcornBurst(submitBtn);
+});
+
+function createPopcornBurst(targetElement) {
+  const rect = targetElement.getBoundingClientRect();
+  const startX = rect.left + rect.width / 2;
+  const startY = rect.top + rect.height / 2;
+
+  for (let i = 0; i < 18; i++) {
+    const popcorn = document.createElement("div");
+    popcorn.className = "popcorn-particle";
+    popcorn.textContent = "🍿";
+    popcorn.style.left = `${startX}px`;
+    popcorn.style.top = `${startY}px`;
+
+    const angle = Math.random() * Math.PI * 2;
+    const distance = 80 + Math.random() * 140;
+    const dx = Math.cos(angle) * distance;
+    const dy = Math.sin(angle) * distance - 40;
+
+    popcorn.style.setProperty("--dx", `${dx}px`);
+    popcorn.style.setProperty("--dy", `${dy}px`);
+
+    document.body.appendChild(popcorn);
+    setTimeout(() => popcorn.remove(), 900);
+  }
+}
+
+function deleteMovie(event, id) {
+  event.stopPropagation();
+  movies = movies.filter(movie => movie.id !== id);
+  saveMovies();
+  renderMovies();
+}
+
+function openModal(movie) {
+  modalPoster.src = movie.image;
+  modalTitle.textContent = movie.title;
+  modalDate.textContent = movie.date;
+  modalRating.textContent = movie.rating;
+  modalMemo.textContent = movie.memo;
+  modal.classList.remove("hidden");
+}
+
+closeModalBtn.addEventListener("click", () => {
+  modal.classList.add("hidden");
+});
+
+modal.addEventListener("click", (e) => {
+  if (e.target === modal) {
+    modal.classList.add("hidden");
+  }
+});
+
 function renderMovies() {
-  movieContainer.innerHTML = ""; // 初期化
+  movieContainer.innerHTML = "";
 
   movies.forEach(movie => {
-    // カードの箱を作る
     const card = document.createElement("div");
     card.className = "movie-card";
+    
+    card.addEventListener("click", () => {
+      openModal(movie);
+    });
 
-    // カードの中身（HTML）を組み立てる
     card.innerHTML = `
-      <img class="movie-poster" src="${movie.image}" alt="${movie.title}">
-      <div class="movie-info">
-        <h2 class="movie-title">${movie.title}</h2>
-        <div class="movie-rating">${movie.rating}</div>
-        <p class="movie-memo">${movie.memo}</p>
+      <div class="ticket-main">
+        <h3 class="card-title">🎟️ ${movie.title}</h3>
+        <div class="card-date">📅 ${movie.date}</div>
+        <div class="card-rating">${movie.rating}</div>
+      </div>
+      <div class="ticket-stub">
+        <span class="ticket-stub-text">ADMIT ONE</span>
+        <button class="delete-btn" onclick="deleteMovie(event, ${movie.id})">削除</button>
       </div>
     `;
-
-    // 画面（#movie-list）に追加する
     movieContainer.appendChild(card);
   });
 }
