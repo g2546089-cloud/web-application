@@ -1,9 +1,40 @@
 body {
     font-family: sans-serif;
-    background-color: #121212;
+    /* 夜空の深みを表現する綺麗なネオンカラーのグラデーション */
+    background: linear-gradient(135deg, #071127);
+    background-attachment: fixed; /* 画面をスクロールしても背景を固定する */
     color: #f1f2f6;
     margin: 0;
     padding: 20px;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.falling-star {
+    position: fixed;
+    top: -20px;
+    color: #fff;
+    pointer-events: none;
+    z-index: -1; /* 映画カードの裏側に流れるようにする */
+    animation: fall linear forwards;
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.8), 0 0 12px #c084fc;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(105vh) rotate(360deg);
+        opacity: 0;
+    }
 }
 
 .hidden {
@@ -19,7 +50,7 @@ body {
 }
 
 .login-card {
-    background-color: #1e1e1e;
+    background-color: #181616;
     color: #fff;
     padding: 40px 45px;
     border-radius: 8px;
@@ -88,7 +119,7 @@ body {
 .login-btn {
     width: 100%;
     padding: 12px;
-    background: #e74c3c;
+    background: #b82212;
     color: white;
     border: none;
     border-radius: 6px;
@@ -96,10 +127,12 @@ body {
     font-size: 1rem;
     cursor: pointer;
     transition: background 0.2s;
+    box-shadow: 0 0 15px rgb(227, 90, 90), inset 0 0 15px rgba(192, 132, 252, 0.1);
 }
 
 .login-btn:hover {
-    background: #c0392b;
+    background: #fd3e29;
+    box-shadow: 0 0 15px rgb(245, 107, 94), inset 0 0 15px rgba(192, 132, 252, 0.1);
 }
 
 /* --- メイン画面ヘッダー --- */
@@ -161,14 +194,14 @@ header p {
     padding: 25px;
     border-radius: 12px;
     border: 2px solid #c084fc;
-    box-shadow: 0 0 15px rgba(192, 132, 252, 0.4), inset 0 0 15px rgba(192, 132, 252, 0.1);
+    box-shadow: 0 0 15px rgb(212, 179, 246), inset 0 0 15px rgba(192, 132, 252, 0.1);
 }
 
 .add-form h3 {
     margin: 0 0 15px 0;
     font-size: 1.05rem;
     color: #f3e8ff;
-    text-shadow: 0 0 8px rgba(192, 132, 252, 0.6);
+    text-shadow: 0 0 10px rgba(192, 132, 252, 0.6);
 }
 
 .form-row {
@@ -190,9 +223,9 @@ header p {
 
 .add-btn {
     width: 100%;
-    background: #3498db;
+    background: #5fccff6c;
     color: white;
-    border: none;
+    border: 2px solid #4fc8fc;
     padding: 11px;
     border-radius: 6px;
     font-weight: bold;
@@ -202,8 +235,8 @@ header p {
 }
 
 .add-btn:hover {
-    background: #2980b9;
-    box-shadow: 0 0 12px rgba(52, 152, 219, 0.6);
+    background: #40d2fb;
+    box-shadow: 0 0 12px rgb(160, 250, 253);
 }
 
 /* --- ネオン劇場風・チケット型カード --- */
@@ -230,33 +263,11 @@ header p {
     box-sizing: border-box;
 }
 
-/* 左端の上下にある丸いくぼみ */
-.movie-card::before,
-.movie-card::after {
-    content: "";
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background-color: #121212;
-    border-radius: 50%;
-    left: -11px;
-    box-sizing: border-box;
-    z-index: 2;
-}
-
-.movie-card::before {
-    top: -11px;
-}
-
-.movie-card::after {
-    bottom: -11px;
-}
-
 /* 縦のミシン目点々 */
 .ticket-main {
     flex-grow: 1;
     padding-right: 20px;
-    border-right: 2px dotted rgba(255, 255, 255, 0.4);
+    border-right: 4px dotted rgba(255, 255, 255, 0.4);
 }
 
 .card-title {
@@ -360,8 +371,8 @@ header p {
 }
 
 .notebook-page {
-    background: #fffdf9;
-    color: #333;
+    background: #212234;
+    color: #ffffff;
     width: 100%;
     max-width: 600px;
     border-radius: 12px;
@@ -375,7 +386,7 @@ header p {
     position: absolute;
     top: 15px;
     right: 20px;
-    background: #eee;
+    background: #f0da5c;
     border: none;
     font-size: 1.2rem;
     width: 32px;
@@ -415,7 +426,7 @@ header p {
 #modal-title {
     margin: 0 0 5px 0;
     font-size: 1.3rem;
-    color: #2c3e50;
+    color: #fcfdfe;
 }
 
 .modal-date-label {
@@ -438,7 +449,7 @@ header p {
 
 .modal-memo {
     font-size: 0.9rem;
-    color: #555;
+    color: #f4f5f9;
     line-height: 1.6;
     margin: 0;
     white-space: pre-wrap;

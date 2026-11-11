@@ -175,7 +175,7 @@ function renderMovies() {
 
     card.innerHTML = `
       <div class="ticket-main">
-        <h3 class="card-title">🎟️ ${movie.title}</h3>
+        <h3 class="card-title"> ${movie.title}</h3>
         <div class="card-date">📅 ${movie.date}</div>
         <div class="card-rating">${movie.rating}</div>
       </div>
@@ -187,3 +187,31 @@ function renderMovies() {
     movieContainer.appendChild(card);
   });
 }
+
+// --- 星が降る演出 ---
+function createFallingStar() {
+    const star = document.createElement("div");
+    star.className = "falling-star";
+    
+    // 星の種類や見た目をランダムにする
+    const starTypes = ["⭐","✨"];
+    star.textContent = starTypes[Math.floor(Math.random() * starTypes.length)];
+    
+    // 横の発生位置、落下スピード、大きさをランダムに決定
+    star.style.left = Math.random() * window.innerWidth + "px";
+    const duration = 7 + Math.random() * 6; // 4秒〜10秒かけて落ちる
+    star.style.animationDuration = duration + "s";
+    
+    const size = 0.6 + Math.random() * 1.0; // 大きさのばらつき
+    star.style.fontSize = size + "rem";
+    
+    document.body.appendChild(star);
+    
+    // アニメーションが終わったら要素を消す
+    setTimeout(() => {
+        star.remove();
+    }, duration * 1000);
+}
+
+// 一定間隔（例：300ミリ秒ごと）に星をポコポコ降らせる
+setInterval(createFallingStar, 300);
