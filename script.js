@@ -6,6 +6,7 @@ const initialMovies = [
     title: "トイ・ストーリー",
     date: "2026-05-10",
     rating: "★★★★★",
+    color: "navy",
     image: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=500",
     memo: "ウッディとバズの友情が最高。何度見ても心が温かくなる大好きな作品。"
   },
@@ -14,6 +15,7 @@ const initialMovies = [
     title: "グランド・ブダペスト・ホテル",
     date: "2026-05-15",
     rating: "★★★★☆",
+    color: "red",
     image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=500",
     memo: "構図と色使いがとにかくおしゃれで可愛い！インテリアや衣装の参考にもなる。"
   },
@@ -22,6 +24,7 @@ const initialMovies = [
     title: "ラ・ラ・ランド",
     date: "2026-05-20",
     rating: "★★★★★",
+    color: "purple",
     image: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=500",
     memo: "音楽と映像美が素晴らしい。切ないけれど前向きになれるラストが好き。"
   }
@@ -44,6 +47,7 @@ const addMovieForm = document.getElementById("add-movie-form");
 const titleInput = document.getElementById("movie-title-input");
 const dateInput = document.getElementById("movie-date-input");
 const ratingInput = document.getElementById("movie-rating-input");
+const colorInput = document.getElementById("movie-color-input");
 const imageInput = document.getElementById("movie-image-input");
 const memoInput = document.getElementById("movie-memo-input");
 
@@ -91,6 +95,7 @@ addMovieForm.addEventListener("submit", (e) => {
     title: titleInput.value,
     date: dateInput.value,
     rating: ratingInput.value,
+    color: colorInput.value,
     image: imageUrl,
     memo: memoInput.value
   };
@@ -160,7 +165,9 @@ function renderMovies() {
 
   movies.forEach(movie => {
     const card = document.createElement("div");
-    card.className = "movie-card";
+    
+    const colorClass = `ticket-${movie.color || 'navy'}`;
+    card.className = `movie-card ${colorClass}`;
     
     card.addEventListener("click", () => {
       openModal(movie);
@@ -168,7 +175,7 @@ function renderMovies() {
 
     card.innerHTML = `
       <div class="ticket-main">
-        <h3 class="card-title"> ${movie.title}</h3>
+        <h3 class="card-title">🎟️ ${movie.title}</h3>
         <div class="card-date">📅 ${movie.date}</div>
         <div class="card-rating">${movie.rating}</div>
       </div>

@@ -1,6 +1,6 @@
 body {
     font-family: sans-serif;
-    background-color: #d7f6f6; /* ログイン画面の背景 */
+    background-color: #121212;
     color: #f1f2f6;
     margin: 0;
     padding: 20px;
@@ -19,7 +19,7 @@ body {
 }
 
 .login-card {
-    background: #1e1e1e;
+    background-color: #1e1e1e;
     color: #fff;
     padding: 40px 45px;
     border-radius: 8px;
@@ -28,12 +28,14 @@ body {
     max-width: 390px;
     text-align: center;
     position: relative;
-    background-image:
+    
+    /* 左右の内側に配置された独立した四角いフィルム穴 */
+    background-image: 
         linear-gradient(0deg, #ffffff 60%, transparent 60%),
         linear-gradient(0deg, #ffffff 60%, transparent 60%);
     background-repeat: repeat-y;
     background-size: 8px 16px;
-    background-position: 12px 0, calc(100% - 12px) 0;
+    background-position: 12px 0, calc(100% - 20px) 0;
 }
 
 .login-icon {
@@ -148,24 +150,25 @@ header p {
     border-color: #ff7675;
 }
 
-/* --- 映画追加フォーム --- */
+/* --- 映画追加フォーム（ネオン看板風） --- */
 .add-movie-section {
     max-width: 1000px;
     margin: 0 auto 30px auto;
 }
 
 .add-form {
-    background: #1e1e1e;
-    padding: 20px;
+    background: #1a1a2e;
+    padding: 25px;
     border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    border: 1px solid #333;
+    border: 2px solid #c084fc;
+    box-shadow: 0 0 15px rgba(192, 132, 252, 0.4), inset 0 0 15px rgba(192, 132, 252, 0.1);
 }
 
 .add-form h3 {
     margin: 0 0 15px 0;
-    font-size: 1rem;
-    color: #f1f2f6;
+    font-size: 1.05rem;
+    color: #f3e8ff;
+    text-shadow: 0 0 8px rgba(192, 132, 252, 0.6);
 }
 
 .form-row {
@@ -195,42 +198,29 @@ header p {
     font-weight: bold;
     font-size: 0.95rem;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: background 0.2s, box-shadow 0.2s;
 }
 
 .add-btn:hover {
     background: #2980b9;
+    box-shadow: 0 0 12px rgba(52, 152, 219, 0.6);
 }
 
-/* --- ボックス型の映画カード一覧 --- */
-/* --- 映画カードグリッド（チケット用に幅を広めに調整） --- */
+/* --- ネオン劇場風・チケット型カード --- */
 .movie-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
     gap: 25px;
     max-width: 1000px;
     margin: 0 auto;
 }
 
-/* --- 本格チケット風の映画カード --- */
 .movie-card {
-    /* 1. チケット全体を囲むゴールドの枠線 */
-    border: 2px solid #d4af37;
-    background-color: #1e272e;
-    
-    /* 2. 左右の凹みをマスクで綺麗にくり抜く */
-    -webkit-mask: 
-        radial-gradient(circle 12px at left center, transparent 12px, black 13px),
-        radial-gradient(circle 12px at right center, transparent 12px, black 13px);
-    -webkit-mask-composite: source-in;
-    mask: 
-        radial-gradient(circle 12px at left center, transparent 12px, black 13px),
-        radial-gradient(circle 12px at right center, transparent 12px, black 13px);
-    mask-composite: intersect;
-
-    border-radius: 12px;
-    padding: 18px 24px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    background-color: #1a1a2e;
+    border: 2px solid;
+    border-radius: 10px;
+    padding: 20px 25px 20px 35px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.15), inset 0 0 15px rgba(255, 255, 255, 0.05);
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     display: flex;
@@ -239,22 +229,34 @@ header p {
     position: relative;
     box-sizing: border-box;
 }
-.movie-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 14px 30px rgba(212, 175, 55, 0.3), 0 6px 12px rga(0, 0, 0, 0.3);
-}
 
-/* 擬似要素の丸（出っ張り原因）は不要になったので削除 */
+/* 左端の上下にある丸いくぼみ */
 .movie-card::before,
 .movie-card::after {
-    display: none;
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #121212;
+    border-radius: 50%;
+    left: -11px;
+    box-sizing: border-box;
+    z-index: 2;
 }
 
-/* チケット本券エリア（左側） */
+.movie-card::before {
+    top: -11px;
+}
+
+.movie-card::after {
+    bottom: -11px;
+}
+
+/* 縦のミシン目点々 */
 .ticket-main {
     flex-grow: 1;
     padding-right: 20px;
-    border-right: 2px dashed #d4af37; /* もぎり用の縦破線 */
+    border-right: 2px dotted rgba(255, 255, 255, 0.4);
 }
 
 .card-title {
@@ -276,14 +278,13 @@ header p {
     font-size: 0.85rem;
 }
 
-/* チケット半券エリア（右側） */
 .ticket-stub {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding-left: 20px;
-    min-width: 70px;
+    padding-left: 18px;
+    min-width: 65px;
 }
 
 .ticket-stub-text {
@@ -310,7 +311,39 @@ header p {
     background: #ff7675;
     color: white;
 }
-/* --- ノート詳細モーダル（1ページ） --- */
+
+/* ホバー時の強いネオン発光 */
+.movie-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 25px currentColor, 0 0 10px rgba(255, 255, 255, 0.4);
+}
+
+/* 🎨 ネオンカラー設定 */
+.ticket-navy {
+    background-color: #0f172a;
+    border-color: #38bdf8;
+    color: #38bdf8;
+}
+
+.ticket-red {
+    background-color: #2a0f13;
+    border-color: #fb7185;
+    color: #fb7185;
+}
+
+.ticket-green {
+    background-color: #062318;
+    border-color: #34d399;
+    color: #34d399;
+}
+
+.ticket-purple {
+    background-color: #1e102e;
+    border-color: #c084fc;
+    color: #c084fc;
+}
+
+/* --- ノート詳細モーダル --- */
 .modal {
     position: fixed;
     top: 0;
@@ -411,7 +444,7 @@ header p {
     white-space: pre-wrap;
 }
 
-/* --- ポップコーンアニメーション --- */
+/* --- ポップコーン演出 --- */
 .popcorn-particle {
     position: fixed;
     pointer-events: none;
