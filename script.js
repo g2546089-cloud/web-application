@@ -48,8 +48,14 @@ const titleInput = document.getElementById("movie-title-input");
 const dateInput = document.getElementById("movie-date-input");
 const ratingInput = document.getElementById("movie-rating-input");
 const colorInput = document.getElementById("movie-color-input");
-const imageInput = document.getElementById("movie-image-input");
 const memoInput = document.getElementById("movie-memo-input");
+
+const imageInput = document.getElementById("movie-image-input");
+const imagePreview = document.getElementById("image-preview");
+const previewContainer = document.getElementById("image-preview-container");
+const removeImageBtn = document.getElementById("remove-image-btn");
+
+let uploadedImageUrl = ""; // 選んだ画像を一時保存する変数
 
 const modal = document.getElementById("movie-modal");
 const closeModalBtn = document.getElementById("close-modal-btn");
@@ -85,10 +91,35 @@ logoutBtn.addEventListener("click", () => {
   passwordInput.value = "";
 });
 
+// --- 写真が選択されたときの処理 ---
+if (imageInput) {
+  imageInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        uploadedImageUrl = event.target.result;
+        imagePreview.src = uploadedImageUrl;
+        previewContainer.classList.remove("hidden");
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+}
+
+if (removeImageBtn) {
+  removeImageBtn.addEventListener("click", () => {
+    imageInput.value = "";
+    uploadedImageUrl = "";
+    previewContainer.classList.add("hidden");
+  });
+}
+
 addMovieForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  const imageUrl = imageInput.value.trim() !== "" ? imageInput.value.trim() : DEFAULT_IMAGE;
+  /*const imageUrl = imageInput.value.trim() !== "" ? imageInput.value.trim() : DEFAULT_IMAGE;*/
+  const finalImage = uploadedImageUrl && uploadedImageUrl.trim() !== "" ? uploadedImageUrl : DEFAULT_IMAGE;
 
   const newMovie = {
     id: Date.now(),
@@ -96,13 +127,20 @@ addMovieForm.addEventListener("submit", (e) => {
     date: dateInput.value,
     rating: ratingInput.value,
     color: colorInput.value,
-    image: imageUrl,
+    image: finalImage,
     memo: memoInput.value
   };
 
   movies.unshift(newMovie);
   saveMovies();
   addMovieForm.reset();
+
+  // 画像プレビューをリセット
+  uploadedImageUrl = "";
+  if (previewContainer) {
+    previewContainer.classList.add("hidden");
+  }
+  
   renderMovies();
 
   const submitBtn = e.target.querySelector('button[type="submit"]');
@@ -194,7 +232,7 @@ function createFallingStar() {
     star.className = "falling-star";
     
     // 星の種類や見た目をランダムにする
-    const starTypes = ["⭐","✨"];
+    const starTypes = ["⭐"];
     star.textContent = starTypes[Math.floor(Math.random() * starTypes.length)];
     
     // 横の発生位置、落下スピード、大きさをランダムに決定
@@ -202,7 +240,7 @@ function createFallingStar() {
     const duration = 7 + Math.random() * 6; // 4秒〜10秒かけて落ちる
     star.style.animationDuration = duration + "s";
     
-    const size = 0.6 + Math.random() * 1.0; // 大きさのばらつき
+    const size = 0.6 + Math.random() * 0.8; // 大きさのばらつき
     star.style.fontSize = size + "rem";
     
     document.body.appendChild(star);

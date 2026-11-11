@@ -10,7 +10,7 @@
     <!-- 1. フィルム風のログイン画面 -->
     <div id="login-screen" class="login-container">
         <div class="login-card">
-            <div class="login-icon">🎬</div>
+            <div class="login-icon"></div>
             <h2>マイ映画図鑑</h2>
             <p>フィルムを開いて記録へ</p>
 
@@ -68,8 +68,17 @@
                         <option value="purple"> ネオンパープル</option>
                     </select>
                 </div>
-                <div class="form-row">
-                    <input type="text" id="movie-image-input" placeholder="画像URL（空欄でもOK）">
+                <!-- 画像の選択 ＆ プレビュー部分 -->
+                <div class="form-row image-upload-row">
+                    <label for="movie-image-input" class="file-upload-btn">
+                         スマホやPCから写真を選ぶ
+                    </label>
+                    <input type="file" id="movie-image-input" accept="image/*" class="hidden">
+                </div>
+                <!-- 選んだ写真のプレビュー表示 -->
+                <div id="image-preview-container" class="preview-container hidden">
+                    <img id="image-preview" src="" alt="プレビュー">
+                    <button type="button" id="remove-image-btn" class="remove-img-btn">×</button>
                 </div>
                 <div class="form-row">
                     <textarea id="movie-memo-input" placeholder="感想やメモをたっぷりと..." rows="2" required></textarea>
