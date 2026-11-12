@@ -119,7 +119,7 @@ body {
 .login-btn {
     width: 100%;
     padding: 12px;
-    background: #b49702;
+    background: #02459e;
     color: white;
     border: none;
     border-radius: 6px;
@@ -127,12 +127,12 @@ body {
     font-size: 1rem;
     cursor: pointer;
     transition: background 0.2s;
-    box-shadow: 0 0 15px rgb(255, 224, 110), inset 0 0 15px rgba(192, 132, 252, 0.1);
+    box-shadow: 0 0 15px rgb(73, 125, 237), inset 0 0 15px rgba(192, 132, 252, 0.1);
 }
 
 .login-btn:hover {
-    background: #eccd04;
-    box-shadow: 0 0 15px rgb(254, 240, 126), inset 0 0 15px rgba(192, 132, 252, 0.1);
+    background: #136adb;
+    box-shadow: 0 0 15px rgb(95, 115, 245), inset 0 0 15px rgba(192, 132, 252, 0.1);
 }
 
 /* --- メイン画面ヘッダー --- */
@@ -193,15 +193,15 @@ header p {
     background: #1a1a2e;
     padding: 25px;
     border-radius: 12px;
-    border: 2px solid #c084fc;
-    box-shadow: 0 0 15px rgb(212, 179, 246), inset 0 0 15px rgba(192, 132, 252, 0.1);
+    border: 2px solid #fafaf7;
+    box-shadow: 0 0 15px rgb(253, 253, 254), inset 0 0 15px rgba(192, 132, 252, 0.1);
 }
 
 .add-form h3 {
     margin: 0 0 15px 0;
     font-size: 1.05rem;
     color: #f3e8ff;
-    text-shadow: 0 0 10px rgba(192, 132, 252, 0.6);
+    text-shadow: 0 0 10px rgba(252, 251, 252, 0.6);
 }
 
 .form-row {
@@ -349,10 +349,23 @@ header p {
 }
 
 .ticket-purple {
-    background-color: #1e102e;
-    border-color: #c084fc;
-    color: #c084fc;
+    background-color: #160623;
+    border-color: #c38afc;
+    color: #c38afc;
 }
+
+.ticket-orange {
+    background-color: #2e2110;
+    border-color: #fc990e;
+    color: #f9af47;
+}
+
+.ticket-pink {
+    background-color: #2e102c;
+    border-color: #fd8ff4;
+    color: #fd8ff4;
+}
+
 
 /* --- ノート詳細モーダル --- */
 .modal {
