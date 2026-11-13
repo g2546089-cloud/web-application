@@ -10,7 +10,7 @@
     <!-- 1. フィルム風のログイン画面 -->
     <div id="login-screen" class="login-container">
         <div class="login-card">
-            <div class="login-icon"></div>
+            <div class="login-icon">🎬</div>
             <h2>マイ映画図鑑</h2>
             <p>フィルムを開いて記録へ</p>
 
@@ -47,7 +47,7 @@
         <!-- 映画の追加フォーム（ネオン看板風） -->
         <section class="add-movie-section">
             <form id="add-movie-form" class="add-form">
-                <h3>🎬 映画を新しく記録する</h3>
+                <h3>✨ 映画を新しく記録する</h3>
                 <div class="form-row">
                     <input type="text" id="movie-title-input" placeholder="映画のタイトル" required>
                     <input type="date" id="movie-date-input" required>
@@ -62,18 +62,19 @@
                     </select>
                     <!-- チケットのカラー選択 -->
                     <select id="movie-color-input">
-                        <option value="navy"> ブルー</option>
-                        <option value="red"> レッド</option>
-                        <option value="green"> グリーン</option>
-                        <option value="purple"> パープル</option>
-                        <option value="orange"> オレンジ</option>
-                        <option value="pink"> ピンク</option>
+                        <option value="navy">ブルー</option>
+                        <option value="red">レッド</option>
+                        <option value="green">グリーン</option>
+                        <option value="purple">パープル</option>
+                        <option value="orange">オレンジ</option>
+                        <option value="pink">ピンク</option>
                     </select>
                 </div>
+                
                 <!-- 画像の選択 ＆ プレビュー部分 -->
                 <div class="form-row image-upload-row">
                     <label for="movie-image-input" class="file-upload-btn">
-                         スマホやPCから写真を選ぶ
+                        📷 スマホやPCから写真を選ぶ
                     </label>
                     <input type="file" id="movie-image-input" accept="image/*" class="hidden">
                 </div>
@@ -82,12 +83,32 @@
                     <img id="image-preview" src="" alt="プレビュー">
                     <button type="button" id="remove-image-btn" class="remove-img-btn">×</button>
                 </div>
+
                 <div class="form-row">
                     <textarea id="movie-memo-input" placeholder="感想やメモをたっぷりと..." rows="2" required></textarea>
                 </div>
                 <button type="submit" class="add-btn">+ 映画リストに追加する</button>
             </form>
         </section>
+
+        <!-- カテゴリ＆お気に入り絞り込みバー（にょきっと出るメニュー） -->
+        <div class="dropdown-container">
+            <button type="button" id="dropdown-btn" class="dropdown-btn">
+                <span id="current-filter-text">🎬 すべて表示</span>
+                <span class="dropdown-arrow">▼</span>
+            </button>
+            
+            <ul id="dropdown-menu" class="dropdown-menu">
+                <li class="filter-option active" data-filter="all">🎬 すべて表示</li>
+                <li class="filter-option" data-filter="favorite">💖 お気に入り</li>
+                <li class="filter-option" data-filter="navy">🔵 ブルー</li>
+                <li class="filter-option" data-filter="red">🔴 レッド</li>
+                <li class="filter-option" data-filter="green">🟢 グリーン</li>
+                <li class="filter-option" data-filter="purple">🟣 パープル</li>
+                <li class="filter-option" data-filter="pink">🩷 ピンク</li>
+                <li class="filter-option" data-filter="orange">🟠 オレンジ</li>
+            </ul>
+        </div>
 
         <!-- 映画リスト（チケット風カード一覧） -->
         <main id="movie-list" class="movie-grid"></main>

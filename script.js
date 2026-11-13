@@ -31,6 +31,7 @@ const initialMovies = [
 ];
 
 let movies = JSON.parse(localStorage.getItem("my_movies")) || initialMovies;
+let currentFilter = "all";
 const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=500";
 
 const loginScreen = document.getElementById("login-screen");
@@ -55,7 +56,7 @@ const imagePreview = document.getElementById("image-preview");
 const previewContainer = document.getElementById("image-preview-container");
 const removeImageBtn = document.getElementById("remove-image-btn");
 
-let uploadedImageUrl = ""; // 選んだ画像を一時保存する変数
+let uploadedImageUrl = "";
 
 const modal = document.getElementById("movie-modal");
 const closeModalBtn = document.getElementById("close-modal-btn");
@@ -91,7 +92,7 @@ logoutBtn.addEventListener("click", () => {
   passwordInput.value = "";
 });
 
-// --- 写真が選択されたときの処理 ---
+// --- 写真選択の処理 ---
 if (imageInput) {
   imageInput.addEventListener("change", (e) => {
     const file = e.target.files[0];
@@ -115,10 +116,10 @@ if (removeImageBtn) {
   });
 }
 
+// 映画追加
 addMovieForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  /*const imageUrl = imageInput.value.trim() !== "" ? imageInput.value.trim() : DEFAULT_IMAGE;*/
   const finalImage = uploadedImageUrl && uploadedImageUrl.trim() !== "" ? uploadedImageUrl : DEFAULT_IMAGE;
 
   const newMovie = {
@@ -128,14 +129,14 @@ addMovieForm.addEventListener("submit", (e) => {
     rating: ratingInput.value,
     color: colorInput.value,
     image: finalImage,
-    memo: memoInput.value
+    memo: memoInput.value,
+    isFavorite: false
   };
 
   movies.unshift(newMovie);
   saveMovies();
   addMovieForm.reset();
 
-  // 画像プレビューをリセット
   uploadedImageUrl = "";
   if (previewContainer) {
     previewContainer.classList.add("hidden");
@@ -147,6 +148,7 @@ addMovieForm.addEventListener("submit", (e) => {
   createPopcornBurst(submitBtn);
 });
 
+// ポップコーン演出
 function createPopcornBurst(targetElement) {
   const rect = targetElement.getBoundingClientRect();
   const startX = rect.left + rect.width / 2;
@@ -179,6 +181,49 @@ function deleteMovie(event, id) {
   renderMovies();
 }
 
+function toggleFavorite(event, id) {
+  event.stopPropagation();
+  movies = movies.map(movie => {
+    if (movie.id === id) {
+      return { ...movie, isFavorite: !movie.isFavorite };
+    }
+    return movie;
+  });
+  saveMovies();
+  renderMovies();
+}
+
+// --- ドロップダウンメニューの開閉処理 ---
+const dropdownContainer = document.querySelector(".dropdown-container");
+const dropdownBtn = document.getElementById("dropdown-btn");
+const currentFilterText = document.getElementById("current-filter-text");
+const filterOptions = document.querySelectorAll(".filter-option");
+
+if (dropdownBtn) {
+  dropdownBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    dropdownContainer.classList.toggle("open");
+  });
+}
+
+filterOptions.forEach(option => {
+  option.addEventListener("click", () => {
+    filterOptions.forEach(opt => opt.classList.remove("active"));
+    option.classList.add("active");
+
+    currentFilterText.textContent = option.textContent;
+    currentFilter = option.dataset.filter;
+    dropdownContainer.classList.remove("open");
+    renderMovies();
+  });
+});
+
+document.addEventListener("click", (e) => {
+  if (dropdownContainer && !dropdownContainer.contains(e.target)) {
+    dropdownContainer.classList.remove("open");
+  }
+});
+
 function openModal(movie) {
   modalPoster.src = movie.image;
   modalTitle.textContent = movie.title;
@@ -201,7 +246,13 @@ modal.addEventListener("click", (e) => {
 function renderMovies() {
   movieContainer.innerHTML = "";
 
-  movies.forEach(movie => {
+  const filteredMovies = movies.filter(movie => {
+    if (currentFilter === "all") return true;
+    if (currentFilter === "favorite") return movie.isFavorite === true;
+    return movie.color === currentFilter;
+  });
+
+  filteredMovies.forEach(movie => {
     const card = document.createElement("div");
     
     const colorClass = `ticket-${movie.color || 'navy'}`;
@@ -211,15 +262,20 @@ function renderMovies() {
       openModal(movie);
     });
 
+    const favClass = movie.isFavorite ? "fav-btn is-fav" : "fav-btn";
+
     card.innerHTML = `
       <div class="ticket-main">
-        <h3 class="card-title"> ${movie.title}</h3>
+        <h3 class="card-title">🎬 ${movie.title}</h3>
         <div class="card-date">📅 ${movie.date}</div>
         <div class="card-rating">${movie.rating}</div>
       </div>
       <div class="ticket-stub">
         <span class="ticket-stub-text">ADMIT ONE</span>
-        <button class="delete-btn" onclick="deleteMovie(event, ${movie.id})">削除</button>
+        <div class="ticket-actions">
+          <button class="${favClass}" onclick="toggleFavorite(event, ${movie.id})" title="お気に入り">💖</button>
+          <button class="delete-btn" onclick="deleteMovie(event, ${movie.id})">削除</button>
+        </div>
       </div>
     `;
     movieContainer.appendChild(card);
@@ -231,25 +287,21 @@ function createFallingStar() {
     const star = document.createElement("div");
     star.className = "falling-star";
     
-    // 星の種類や見た目をランダムにする
     const starTypes = ["⭐"];
     star.textContent = starTypes[Math.floor(Math.random() * starTypes.length)];
     
-    // 横の発生位置、落下スピード、大きさをランダムに決定
     star.style.left = Math.random() * window.innerWidth + "px";
-    const duration = 8 + Math.random() * 10; // 4秒〜10秒かけて落ちる
+    const duration = 8 + Math.random() * 10;
     star.style.animationDuration = duration + "s";
     
-    const size = 0.6 + Math.random() * 0.8; // 大きさのばらつき
+    const size = 0.6 + Math.random() * 0.8;
     star.style.fontSize = size + "rem";
     
     document.body.appendChild(star);
     
-    // アニメーションが終わったら要素を消す
     setTimeout(() => {
         star.remove();
     }, duration * 1000);
 }
 
-// 一定間隔（例：300ミリ秒ごと）に星をポコポコ降らせる
 setInterval(createFallingStar, 300);
