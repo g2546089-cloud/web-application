@@ -47,7 +47,7 @@
         <!-- 映画の追加フォーム（ネオン看板風） -->
         <section class="add-movie-section">
             <form id="add-movie-form" class="add-form">
-                <h3> 映画を新しく記録する</h3>
+                <h3>🎬 映画を新しく記録する</h3>
                 <div class="form-row">
                     <input type="text" id="movie-title-input" placeholder="映画のタイトル" required>
                     <input type="date" id="movie-date-input" required>
@@ -88,26 +88,7 @@
                 <button type="submit" class="add-btn">+ 映画リストに追加する</button>
             </form>
         </section>
-        <!-- カテゴリ＆お気に入り絞り込みバー -->
-        <!-- 1つのボタンからにょきっと出てくるカテゴリーメニュー -->
-        <div class="dropdown-container">
-            <button type="button" id="dropdown-btn" class="dropdown-btn">
-                <span id="current-filter-text"> すべて表示</span>
-                <span class="dropdown-arrow">▼</span>
-            </button>
-            
-            <ul id="dropdown-menu" class="dropdown-menu">
-                <li class="filter-option active" data-filter="all"> すべて表示</li>
-                <li class="filter-option" data-filter="favorite">💖 お気に入り</li>
-                <li class="filter-option" data-filter="navy">🔵 ブルー</li>
-                <li class="filter-option" data-filter="red">🔴 レッド</li>
-                <li class="filter-option" data-filter="green">🟢 グリーン</li>
-                <li class="filter-option" data-filter="purple">🟣 パープル</li>
-                <li class="filter-option" data-filter="pink">🩷 ピンク</li>
-                <li class="filter-option" data-filter="yellow">🟡 イエロー</li>
-                <li class="filter-option" data-filter="orange">🟠 オレンジ</li>
-            </ul>
-        </div>
+
         <!-- 映画リスト（チケット風カード一覧） -->
         <main id="movie-list" class="movie-grid"></main>
     </div>

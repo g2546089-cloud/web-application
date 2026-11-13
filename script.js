@@ -31,7 +31,6 @@ const initialMovies = [
 ];
 
 let movies = JSON.parse(localStorage.getItem("my_movies")) || initialMovies;
-let currentFilter = "all"; // 最初は「すべて」を表示
 const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=500";
 
 const loginScreen = document.getElementById("login-screen");
@@ -180,58 +179,6 @@ function deleteMovie(event, id) {
   renderMovies();
 }
 
-// お気に入り状態をオン/オフ切り替え
-function toggleFavorite(event, id) {
-  event.stopPropagation(); // カードのモーダルが開くのを防ぐ
-  movies = movies.map(movie => {
-    if (movie.id === id) {
-      return { ...movie, isFavorite: !movie.isFavorite };
-    }
-    return movie;
-  });
-  saveMovies();
-  renderMovies();
-}
-
-// フィルターバーのボタンをクリックしたときの処理
-// --- にょきっと出るドロップダウンメニューの処理 ---
-const dropdownContainer = document.querySelector(".dropdown-container");
-const dropdownBtn = document.getElementById("dropdown-btn");
-const currentFilterText = document.getElementById("current-filter-text");
-const filterOptions = document.querySelectorAll(".filter-option");
-
-// ボタンを押したら開く・閉じる
-if (dropdownBtn) {
-  dropdownBtn.addEventListener("click", (e) => {
-    e.stopPropagation(); // 画面クリック判定とぶつからないようにする
-    dropdownContainer.classList.toggle("open");
-  });
-}
-
-// 選択肢を選んだときの処理
-filterOptions.forEach(option => {
-  option.addEventListener("click", () => {
-    // 選択中の見た目を更新
-    filterOptions.forEach(opt => opt.classList.remove("active"));
-    option.classList.add("active");
-
-    // ボタンの文字を選んだ項目に変える
-    currentFilterText.textContent = option.textContent;
-
-    // 絞り込みを実行してメニューを閉じる
-    currentFilter = option.dataset.filter;
-    dropdownContainer.classList.remove("open");
-    renderMovies();
-  });
-});
-
-// メニュー以外の画面のどこかをクリックしたら自動で閉じる
-document.addEventListener("click", (e) => {
-  if (dropdownContainer && !dropdownContainer.contains(e.target)) {
-    dropdownContainer.classList.remove("open");
-  }
-});
-
 function openModal(movie) {
   modalPoster.src = movie.image;
   modalTitle.textContent = movie.title;
@@ -254,14 +201,7 @@ modal.addEventListener("click", (e) => {
 function renderMovies() {
   movieContainer.innerHTML = "";
 
-  // 選ばれているフィルターに応じて表示する映画を絞り込む
-  const filteredMovies = movies.filter(movie => {
-    if (currentFilter === "all") return true;
-    if (currentFilter === "favorite") return movie.isFavorite === true;
-    return movie.color === currentFilter;
-  });
-
-  filteredMovies.forEach(movie => {
+  movies.forEach(movie => {
     const card = document.createElement("div");
     
     const colorClass = `ticket-${movie.color || 'navy'}`;
@@ -271,21 +211,15 @@ function renderMovies() {
       openModal(movie);
     });
 
-    // お気に入り状態ならクラスをつける
-    const favClass = movie.isFavorite ? "fav-btn is-fav" : "fav-btn";
-
     card.innerHTML = `
       <div class="ticket-main">
-        <h3 class="card-title">🎬 ${movie.title}</h3>
+        <h3 class="card-title"> ${movie.title}</h3>
         <div class="card-date">📅 ${movie.date}</div>
         <div class="card-rating">${movie.rating}</div>
       </div>
       <div class="ticket-stub">
         <span class="ticket-stub-text">ADMIT ONE</span>
-        <div class="ticket-actions">
-          <button class="${favClass}" onclick="toggleFavorite(event, ${movie.id})" title="お気に入り">💖</button>
-          <button class="delete-btn" onclick="deleteMovie(event, ${movie.id})">削除</button>
-        </div>
+        <button class="delete-btn" onclick="deleteMovie(event, ${movie.id})">削除</button>
       </div>
     `;
     movieContainer.appendChild(card);
